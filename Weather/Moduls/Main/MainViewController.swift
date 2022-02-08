@@ -5,8 +5,8 @@
 //  Created by Артем Мак on 06.02.2022.
 //  Copyright © 2022 Артем Мак. All rights reserved.
 //
+
 import UIKit
-import CoreLocation
 
 protocol MainView {
     func showLocation(latitude: String, longitude: String)

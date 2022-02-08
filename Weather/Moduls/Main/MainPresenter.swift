@@ -13,15 +13,14 @@ class MainPresenter {
     var view: MainView?
     
     func viewDidLoad() {
-        LocationService.shared.getLocation { resuls in
-            switch resuls {
+        LocationService.shared.getLocation { result in
+            switch result {
             case .success(let location):
-                if let locationLatitude = location.first?.coordinate.latitude,
-                    let locationLongitude = location.first?.coordinate.longitude {
-                    self.view?.showLocation(latitude: String(locationLatitude), longitude: String(locationLongitude))
-                }
+                let locationLatitude = location.coordinate.latitude
+                let locationLongitude = location.coordinate.longitude
+                self.view?.showLocation(latitude: String(locationLatitude), longitude: String(locationLongitude))
             case .failure(let error):
-               self.view?.showError(text: error.localizedDescription)
+                self.view?.showError(text: error.localizedDescription)
             }
         }
     }

@@ -5,13 +5,14 @@
 //  Created by Артем Мак on 06.02.2022.
 //  Copyright © 2022 Артем Мак. All rights reserved.
 //
+
 import CoreLocation
 
 class LocationService: NSObject {
     
     static var shared = LocationService()
     private var locationManageer = CLLocationManager()
-    private var locationHandler: ((Result<[CLLocation], Error>)-> Void)?
+    private var locationHandler: ((Result<CLLocation, Error>)-> Void)?
     
     override init() {                                  
         super.init()
@@ -21,7 +22,7 @@ class LocationService: NSObject {
         locationManageer.delegate = self
     }
     
-    public func getLocation(completion: @escaping (Result<[CLLocation], Error>)-> Void) {
+    public func getLocation(completion: @escaping (Result<CLLocation, Error>)-> Void) {
         self.locationHandler = completion
     }
 }
@@ -32,7 +33,7 @@ extension LocationService: CLLocationManagerDelegate {
             locationHandler?(.failure(NSError(domain: "Locations are missing", code: 1, userInfo: [:])))
             return
         }
-        locationHandler?(.success([location]))
+        locationHandler?(.success(location))
         locationManageer.stopUpdatingLocation()
     }
 }
