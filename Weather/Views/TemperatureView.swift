@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TemperatureView.swift
 //  Weather
 //
 //  Created by Артем Мак on 09.02.2022.
@@ -31,7 +31,7 @@ class TemperatureView: UIView {
     
     private lazy var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
-        temperatureLabel.text = "-2"
+        temperatureLabel.text = "-2°"
         temperatureLabel.font = temperatureLabel.font.withSize(150)
         temperatureLabel.textAlignment = .center
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ class TemperatureView: UIView {
     
     private lazy var temperatureIntervalLabel: UILabel = {
         let temperatureIntervalLabel = UILabel()
-        temperatureIntervalLabel.text = "Макс. -2, мин. -6"
+        temperatureIntervalLabel.text = "Макс. -2°, мин. -6°"
         temperatureIntervalLabel.font = UIFont.systemFont(ofSize: 19)
         temperatureIntervalLabel.textAlignment = .center
         temperatureIntervalLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -90,10 +90,10 @@ class TemperatureView: UIView {
             ])
     }
     
-   public func configurate(with cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
+    public func configurate(with cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
         cityNameLabel.text = cityName
         weatherСonditionsLabel.text = state
         temperatureLabel.text = String(temperature)
-        temperatureIntervalLabel.text = String("Макс. \(temperatureMax), мин. \(temperatureMin)")
+        temperatureIntervalLabel.text = String("Макс. \(temperatureMax)°, мин. \(temperatureMin)°")
     }
 }
