@@ -23,6 +23,20 @@ class MainViewController: UIViewController {
         return imageBackground
     }()
     
+    private lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var temperatureView: TemperatureView = {
+       let temperatureView = TemperatureView.init()
+        temperatureView.translatesAutoresizingMaskIntoConstraints = false
+        return temperatureView
+    }()
+    
     private lazy var presenter = MainPresenter()
     
     override func viewDidLoad() {
@@ -35,6 +49,8 @@ class MainViewController: UIViewController {
     
     private func setupViews() {
         view.addSubview(imageBackground)
+        view.addSubview(stackView)
+        stackView.addArrangedSubview(temperatureView)
     }
     
     private func setupConstraints() {
@@ -43,6 +59,13 @@ class MainViewController: UIViewController {
             imageBackground.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             imageBackground.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             imageBackground.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            ])
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: view.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
 }
