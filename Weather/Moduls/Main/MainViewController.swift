@@ -15,7 +15,7 @@ protocol MainView {
 
 class MainViewController: UIViewController {
     
-    private lazy var imageBackground: UIImageView = {
+    private lazy var backgroundImageView: UIImageView = {
         let imageBackground = UIImageView()
         imageBackground.image = UIImage(named: "skyBackground")
         imageBackground.translatesAutoresizingMaskIntoConstraints = false
@@ -32,7 +32,7 @@ class MainViewController: UIViewController {
     }()
     
     private lazy var temperatureView: TemperatureView = {
-       let temperatureView = TemperatureView.init()
+        let temperatureView = TemperatureView()
         temperatureView.translatesAutoresizingMaskIntoConstraints = false
         return temperatureView
     }()
@@ -45,20 +45,21 @@ class MainViewController: UIViewController {
         setupConstraints()
         presenter.view = self
         presenter.viewDidLoad()
+        temperatureView.configurate(with: "Иваново", state: "Временами снег", temperature: -2, temperatureMax: -2, temperatureMin: -6)
     }
     
     private func setupViews() {
-        view.addSubview(imageBackground)
+        view.addSubview(backgroundImageView)
         view.addSubview(stackView)
         stackView.addArrangedSubview(temperatureView)
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            imageBackground.topAnchor.constraint(equalTo: self.view.topAnchor),
-            imageBackground.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            imageBackground.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            imageBackground.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            backgroundImageView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImageView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
         
         NSLayoutConstraint.activate([

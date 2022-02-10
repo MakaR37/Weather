@@ -6,43 +6,42 @@
 //  Copyright © 2022 Артем Мак. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class TemperatureView: UIView {
     
     private lazy var cityNameLabel: UILabel = {
         let cityNameLabel = UILabel()
-        cityNameLabel.text = "Иваново"
         cityNameLabel.font = UIFont.systemFont(ofSize: 35)
         cityNameLabel.textAlignment = .center
+        cityNameLabel.textColor = .white
         cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return cityNameLabel
     }()
     
     private lazy var weatherСonditionsLabel: UILabel = {
         let weatherСonditionsLabel = UILabel()
-        weatherСonditionsLabel.text = "Временами снег"
         weatherСonditionsLabel.font = UIFont.systemFont(ofSize: 21)
         weatherСonditionsLabel.textAlignment = .center
+        weatherСonditionsLabel.textColor = .white
         weatherСonditionsLabel.translatesAutoresizingMaskIntoConstraints = false
         return weatherСonditionsLabel
     }()
     
     private lazy var temperatureLabel: UILabel = {
         let temperatureLabel = UILabel()
-        temperatureLabel.text = "-2°"
-        temperatureLabel.font = temperatureLabel.font.withSize(150)
+        temperatureLabel.font = UIFont.systemFont(ofSize: 120)
         temperatureLabel.textAlignment = .center
+        temperatureLabel.textColor = .white
         temperatureLabel.translatesAutoresizingMaskIntoConstraints = false
         return temperatureLabel
     }()
     
     private lazy var temperatureIntervalLabel: UILabel = {
         let temperatureIntervalLabel = UILabel()
-        temperatureIntervalLabel.text = "Макс. -2°, мин. -6°"
         temperatureIntervalLabel.font = UIFont.systemFont(ofSize: 19)
         temperatureIntervalLabel.textAlignment = .center
+        temperatureIntervalLabel.textColor = .white
         temperatureIntervalLabel.translatesAutoresizingMaskIntoConstraints = false
         return temperatureIntervalLabel
     }()
@@ -67,7 +66,7 @@ class TemperatureView: UIView {
     private func setupConstrant() {
         NSLayoutConstraint.activate([
             cityNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 120),
-            cityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
+            cityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 45),
             cityNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
             ])
         
@@ -93,7 +92,7 @@ class TemperatureView: UIView {
     public func configurate(with cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
         cityNameLabel.text = cityName
         weatherСonditionsLabel.text = state
-        temperatureLabel.text = String(temperature)
+        temperatureLabel.text = String("\(temperature)°")
         temperatureIntervalLabel.text = String("Макс. \(temperatureMax)°, мин. \(temperatureMin)°")
     }
 }
