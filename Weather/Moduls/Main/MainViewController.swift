@@ -16,11 +16,11 @@ protocol MainView {
 class MainViewController: UIViewController {
     
     private lazy var backgroundImageView: UIImageView = {
-        let imageBackground = UIImageView()
-        imageBackground.image = UIImage(named: "skyBackground")
-        imageBackground.translatesAutoresizingMaskIntoConstraints = false
-        imageBackground.contentMode = UIView.ContentMode.scaleAspectFill
-        return imageBackground
+        let backgroundImageView = UIImageView()
+        backgroundImageView.image = UIImage(named: "skyBackground")
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
+        backgroundImageView.contentMode = UIView.ContentMode.scaleAspectFill
+        return backgroundImageView
     }()
     
     private lazy var stackView: UIStackView = {
