@@ -18,23 +18,27 @@ class MainViewController: UIViewController {
     private lazy var backgroundImageView: UIImageView = {
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "skyBackground")
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         return backgroundImageView
     }()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .vertical
         stackView.spacing = 16
+        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     private lazy var temperatureView: TemperatureView = {
         let temperatureView = TemperatureView()
-        temperatureView.translatesAutoresizingMaskIntoConstraints = false
         return temperatureView
+    }()
+    
+    private lazy var hourlyTemperatureView: HourlyTemperatureView = {
+        let hourlyTemperatureView = HourlyTemperatureView()
+        return hourlyTemperatureView
     }()
     
     private lazy var presenter = MainPresenter()
@@ -52,6 +56,7 @@ class MainViewController: UIViewController {
         view.addSubview(backgroundImageView)
         view.addSubview(stackView)
         stackView.addArrangedSubview(temperatureView)
+        stackView.addArrangedSubview(hourlyTemperatureView)
     }
     
     private func setupConstraints() {
@@ -63,14 +68,13 @@ class MainViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 35),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
             ])
     }
 }
-
 extension MainViewController: MainView {
     func showLocation(latitude: String, longitude: String) {
         print("latitude: \(latitude), longitude: \(longitude)")
