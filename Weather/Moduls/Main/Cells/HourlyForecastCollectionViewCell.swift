@@ -67,7 +67,7 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: topAnchor),
-            timeLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            timeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constraint: -2),
             timeLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         

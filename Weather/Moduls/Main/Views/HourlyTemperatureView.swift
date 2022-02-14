@@ -35,6 +35,7 @@ class HourlyTemperatureView: UIView {
     
     private lazy var hourlyForecastColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         hourlyForecastColletionView.translatesAutoresizingMaskIntoConstraints = false
         hourlyForecastColletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
@@ -47,7 +48,6 @@ class HourlyTemperatureView: UIView {
         hourlyForecastColletionView.delegate = self
         hourlyForecastColletionView.dataSource = self
         hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 14, bottom: .zero, right: 14)
-        layout.scrollDirection = .horizontal
         return hourlyForecastColletionView
     }()
     
@@ -63,13 +63,13 @@ class HourlyTemperatureView: UIView {
     
     private func setupView() {
         layer.cornerRadius = 15
+        clipsToBounds = true
         backgroundColor = UIColor(
             red: (80/255.0),
             green: (91/255.0),
             blue: (107/255.0),
             alpha: 1
         )
-        clipsToBounds = true
         addSubview(watchImageView)
         addSubview(hourlyForecastLabel)
         addSubview(hourlyForecastColletionView)
@@ -106,7 +106,7 @@ extension HourlyTemperatureView: UICollectionViewDelegateFlowLayout {
         let width = ((collectionView.bounds.width - widthFirstCell - collectionView.contentInset.left - collectionView.contentInset.right) / 5) - 8
         if indexPath.row == 0 {
             return CGSize(width: widthFirstCell, height: 90)
-        }else{
+        } else {
             return CGSize(width: width, height: 90)
         }
     }
