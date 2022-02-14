@@ -19,7 +19,7 @@ class MainViewController: UIViewController {
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "skyBackground")
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        backgroundImageView.contentMode = UIView.ContentMode.scaleAspectFill
+        backgroundImageView.contentMode = .scaleAspectFill
         return backgroundImageView
     }()
     
