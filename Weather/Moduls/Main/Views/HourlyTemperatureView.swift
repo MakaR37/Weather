@@ -47,7 +47,7 @@ class HourlyTemperatureView: UIView {
         )
         hourlyForecastColletionView.delegate = self
         hourlyForecastColletionView.dataSource = self
-        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 14, bottom: .zero, right: 14)
+        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
         return hourlyForecastColletionView
     }()
     
