@@ -13,13 +13,14 @@ protocol MainView {
     func showError(text: String)
 }
 
+
 class MainViewController: UIViewController {
     
     private lazy var backgroundImageView: UIImageView = {
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "skyBackground")
-        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         backgroundImageView.contentMode = .scaleAspectFill
+        backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
         return backgroundImageView
     }()
     
@@ -33,8 +34,17 @@ class MainViewController: UIViewController {
     
     private lazy var temperatureView: TemperatureView = {
         let temperatureView = TemperatureView()
-        temperatureView.translatesAutoresizingMaskIntoConstraints = false
         return temperatureView
+    }()
+    
+    private lazy var hourlyTemperatureView: HourlyTemperatureView = {
+        let hourlyTemperatureView = HourlyTemperatureView()
+        return hourlyTemperatureView
+    }()
+    
+    private lazy var weekTemperatureView: WeekTemperatureView = {
+        let weekTemperatureView = WeekTemperatureView()
+        return weekTemperatureView
     }()
     
     private lazy var presenter = MainPresenter()
@@ -45,13 +55,15 @@ class MainViewController: UIViewController {
         setupConstraints()
         presenter.view = self
         presenter.viewDidLoad()
-        temperatureView.configurate(with: "Иваново", state: "Временами снег", temperature: -2, temperatureMax: -2, temperatureMin: -6)
+        temperatureView.configurate(cityName: "Иваново", state: "Снег", temperature: -2, temperatureMax: 1, temperatureMin: 6)
     }
     
     private func setupViews() {
         view.addSubview(backgroundImageView)
         view.addSubview(stackView)
         stackView.addArrangedSubview(temperatureView)
+        stackView.addArrangedSubview(hourlyTemperatureView)
+        stackView.addArrangedSubview(weekTemperatureView)
     }
     
     private func setupConstraints() {
@@ -63,14 +75,13 @@ class MainViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor),
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
             ])
     }
 }
-
 extension MainViewController: MainView {
     func showLocation(latitude: String, longitude: String) {
         print("latitude: \(latitude), longitude: \(longitude)")

@@ -22,21 +22,21 @@ class HourlyTemperatureView: UIView {
     private lazy var hourlyForecastLabel: UILabel = {
         let hourlyForecastLabel = UILabel()
         hourlyForecastLabel.text = "ПОЧАСОВОЙ ПРОГНОЗ"
-        hourlyForecastLabel.font = UIFont.systemFont(ofSize: 12)
-        hourlyForecastLabel.translatesAutoresizingMaskIntoConstraints = false
+        hourlyForecastLabel.font = .systemFont(ofSize: 12)
         hourlyForecastLabel.textColor = UIColor(
             red: (138/255.0),
             green: (148/255.0),
             blue: (165/255.0),
             alpha: 1
         )
+        hourlyForecastLabel.translatesAutoresizingMaskIntoConstraints = false
         return hourlyForecastLabel
     }()
     
     private lazy var hourlyForecastColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        hourlyForecastColletionView.translatesAutoresizingMaskIntoConstraints = false
+        layout.scrollDirection = .horizontal
         hourlyForecastColletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
         hourlyForecastColletionView.backgroundColor = UIColor(
             red: (80/255.0),
@@ -46,8 +46,8 @@ class HourlyTemperatureView: UIView {
         )
         hourlyForecastColletionView.delegate = self
         hourlyForecastColletionView.dataSource = self
-        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 14, bottom: .zero, right: 14)
-        layout.scrollDirection = .horizontal
+        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
+        hourlyForecastColletionView.translatesAutoresizingMaskIntoConstraints = false
         return hourlyForecastColletionView
     }()
     
@@ -63,13 +63,13 @@ class HourlyTemperatureView: UIView {
     
     private func setupView() {
         layer.cornerRadius = 15
+        clipsToBounds = true
         backgroundColor = UIColor(
             red: (80/255.0),
             green: (91/255.0),
             blue: (107/255.0),
             alpha: 1
         )
-        clipsToBounds = true
         addSubview(watchImageView)
         addSubview(hourlyForecastLabel)
         addSubview(hourlyForecastColletionView)
@@ -86,8 +86,7 @@ class HourlyTemperatureView: UIView {
         NSLayoutConstraint.activate([
             hourlyForecastLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             hourlyForecastLabel.leadingAnchor.constraint(equalTo: watchImageView.trailingAnchor, constant: 5),
-            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            hourlyForecastLabel.bottomAnchor.constraint(equalTo: watchImageView.bottomAnchor)
+            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
             ])
         
         NSLayoutConstraint.activate([
