@@ -85,11 +85,12 @@ class TemperatureView: UIView {
         NSLayoutConstraint.activate([
             temperatureIntervalLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: -10),
             temperatureIntervalLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            temperatureIntervalLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
+            temperatureIntervalLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70),
+            temperatureIntervalLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
             ])
     }
     
-    public func configurate(with cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
+    public func configurate(cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
         cityNameLabel.text = cityName
         weatherСonditionsLabel.text = state
         temperatureLabel.text = String("\(temperature)°")
