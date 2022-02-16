@@ -6,8 +6,6 @@
 //  Copyright © 2022 Артем Мак. All rights reserved.
 //
 
-import Foundation
-
 struct Weather {
     let date: String
     let image: String
