@@ -42,6 +42,11 @@ class MainViewController: UIViewController {
         return hourlyTemperatureView
     }()
     
+    private lazy var weekTemperatureView: WeekTemperatureView = {
+        let weekTemperatureView = WeekTemperatureView()
+        return weekTemperatureView
+    }()
+    
     private lazy var presenter = MainPresenter()
     
     override func viewDidLoad() {
@@ -58,9 +63,7 @@ class MainViewController: UIViewController {
         view.addSubview(stackView)
         stackView.addArrangedSubview(temperatureView)
         stackView.addArrangedSubview(hourlyTemperatureView)
-        let view = UIView()
-        view.backgroundColor = .clear
-        stackView.addArrangedSubview(view)
+        stackView.addArrangedSubview(weekTemperatureView)
     }
     
     private func setupConstraints() {
