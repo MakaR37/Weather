@@ -7,7 +7,6 @@
 //
 
 struct WeatherDetailed: Decodable {
-    let timezone: String
     let hourly: [Hourly]
     let daily: [Daily]
 }

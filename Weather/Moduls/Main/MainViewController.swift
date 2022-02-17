@@ -10,6 +10,7 @@ import UIKit
 
 protocol MainView {
     func configure(with hourles: [Hourly])
+    func configure(with weather: WeatherNow)
     func showError(text: String)
 }
 
@@ -54,7 +55,6 @@ class MainViewController: UIViewController {
         setupConstraints()
         presenter.view = self
         presenter.viewDidLoad()
-        temperatureView.configurate(cityName: "Иваново", state: "Снег", temperature: -2, temperatureMax: 1, temperatureMin: 6)
     }
     
     private func setupViews() {
@@ -74,14 +74,18 @@ class MainViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
             ])
     }
 }
 extension MainViewController: MainView {
+    func configure(with weather: WeatherNow) {
+        temperatureView.configurate(weather: weather)
+    }
+    
     func configure(with hourles: [Hourly]) {
         hourlyTemperatureView.configure(hourles: hourles)
     }

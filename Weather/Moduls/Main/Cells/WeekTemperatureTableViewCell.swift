@@ -66,13 +66,6 @@ class WeekTemperatureTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public func configurate(with date: String, image: String, temperatureFirst: Int, temperatureSecond: Int) {
-        weekDayLabel.text = date
-        weatherImageView.image = UIImage(named: "\(image)")
-        temperatureFirstLabel.text = "\(temperatureFirst)°"
-        temperatureSecondLabel.text = "\(temperatureFirst)°"
-    }
-    
     private func setupViews() {
         selectionStyle = .none
         contentView.addSubview(weekDayLabel)

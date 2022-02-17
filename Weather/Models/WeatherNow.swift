@@ -7,18 +7,24 @@
 //
 
 struct WeatherNow: Decodable {
-    let weather: [Weather]?
-    let main: Main?
+    let weather: [Weather]
+    let main: Main
+    let name: String
 }
 
 struct Weather: Decodable {
     let description: String
-    let icon: String
 }
 
 struct Main: Decodable {
     let temp: Double
-    let temp_min: Double
-    let temp_max: Double
+    let tempMin: Double
+    let tempMax: Double
+    
+    enum CodingKeys: String, CodingKey {
+        case temp
+        case tempMin = "temp_min"
+        case tempMax = "temp_max"
+    }
 }
 

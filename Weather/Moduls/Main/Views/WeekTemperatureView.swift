@@ -102,9 +102,6 @@ extension WeekTemperatureView: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: WeekTemperatureTableViewCell.identifire, for: indexPath) as? WeekTemperatureTableViewCell {
-            //let weather = array[indexPath.row]
-//            cell.configurate(with: weather.date, image: weather.image, temperatureFirst: weather.temperature, temperatureSecond: weather.temperature)
-        
             return cell
         }
         return UITableViewCell()

@@ -97,8 +97,7 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
             weatherImageView.topAnchor.constraint(equalTo: timeLabel.bottomAnchor),
             weatherImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             weatherImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            weatherImageView.widthAnchor.constraint(equalToConstant: 45),
-            weatherImageView.heightAnchor.constraint(equalToConstant: 45)
+            weatherImageView.heightAnchor.constraint(equalToConstant: 40)
             ])
         
         NSLayoutConstraint.activate([

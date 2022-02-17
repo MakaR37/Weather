@@ -11,8 +11,8 @@ import Foundation
 struct  WeatherNetworkService {
     static var share = WeatherNetworkService()
     
-    func getWeatherNow(by lat: Double, lon: Double, completion: @escaping (Result<WeatherNow, Error>)-> Void) {
-        let apiLink = "http://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=57d5f10b9093291c4629c30ca9b6da8a"
+    func getWeatherNow(lat: Double, lon: Double, completion: @escaping (Result<WeatherNow, Error>)-> Void) {
+        let apiLink = "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(lon)&appid=57d5f10b9093291c4629c30ca9b6da8a&lang=ru&units=metric"
         guard let url = URL(string: apiLink) else {
             return
         }

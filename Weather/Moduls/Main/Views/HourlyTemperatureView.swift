@@ -91,7 +91,7 @@ class HourlyTemperatureView: UIView {
         NSLayoutConstraint.activate([
             hourlyForecastLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             hourlyForecastLabel.leadingAnchor.constraint(equalTo: watchImageView.trailingAnchor, constant: 5),
-            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
+            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         
         NSLayoutConstraint.activate([
