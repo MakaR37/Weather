@@ -11,6 +11,7 @@ import UIKit
 protocol MainView {
     func configure(with hourles: [Hourly])
     func configure(with weather: WeatherNow)
+    func configure(with dailys: [Daily])
     func showError(text: String)
 }
 
@@ -88,6 +89,10 @@ extension MainViewController: MainView {
     
     func configure(with hourles: [Hourly]) {
         hourlyTemperatureView.configure(hourles: hourles)
+    }
+    
+    func configure(with dailys: [Daily]) {
+        weekTemperatureView.configure(week: dailys)
     }
     
     func showError(text: String) {

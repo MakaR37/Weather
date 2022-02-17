@@ -15,7 +15,6 @@ class TemperatureView: UIView {
         cityNameLabel.font = .systemFont(ofSize: 35)
         cityNameLabel.textAlignment = .center
         cityNameLabel.textColor = .white
-
         cityNameLabel.translatesAutoresizingMaskIntoConstraints = false
         return cityNameLabel
     }()

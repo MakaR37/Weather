@@ -142,7 +142,7 @@ extension HourlyTemperatureView: UICollectionViewDataSource {
                 }
                 return dateString
             }
-            cell.configurate(date: date, imageLink: hourly.weather.first?.icon ?? "", temperature: hourly.temp)
+            cell.configurate(date: date, imageLink: hourly.weather.first?.icon ?? "" , temperature: hourly.temp)
             return cell
         }
         return UICollectionViewCell()

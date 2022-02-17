@@ -22,6 +22,7 @@ class WeekTemperatureTableViewCell: UITableViewCell {
     
     private lazy var weatherImageView: UIImageView = {
         let weatherImageView = UIImageView()
+        weatherImageView.contentMode = .scaleAspectFit
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
         return weatherImageView
     }()
@@ -66,6 +67,34 @@ class WeekTemperatureTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func configure(weekDay: String, image: String, tempFirts: Double, tempSec: Double) {
+        weekDayLabel.text = weekDay
+        temperatureFirstLabel.text = "\(Int(tempFirts))"
+        temperatureSecondLabel.text = "\(Int(tempSec))"
+        getPicture(for: image)
+    }
+    
+    private func getPicture(for link: String) {
+        guard let imageUrl = URL(string:"https://openweathermap.org/img/wn/\(link)@2x.png") else {
+            DispatchQueue.main.async {
+                self.weatherImageView.image = UIImage(named: "placeholder")
+            }
+            return
+        }
+        DispatchQueue.global(qos: .utility).async {
+            guard let pictureData = NSData(contentsOf: imageUrl as URL),
+                let picture = UIImage(data: pictureData as Data) else {
+                    DispatchQueue.main.async {
+                        self.weatherImageView.image = UIImage(named: "placeholder")
+                    }
+                    return
+            }
+            DispatchQueue.main.async {
+                self.weatherImageView.image = picture
+            }
+        }
+    }
+    
     private func setupViews() {
         selectionStyle = .none
         contentView.addSubview(weekDayLabel)
@@ -85,7 +114,8 @@ class WeekTemperatureTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             weatherImageView.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             weatherImageView.leadingAnchor.constraint(equalTo: weekDayLabel.trailingAnchor, constant: 16),
-            weatherImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10)
+            weatherImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 40)
             ])
         
         NSLayoutConstraint.activate([

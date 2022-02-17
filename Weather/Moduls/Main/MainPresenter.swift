@@ -45,6 +45,7 @@ class MainPresenter {
             case .success(let weatherDetail):
                 DispatchQueue.main.async {
                     self.view?.configure(with: weatherDetail.hourly)
+                    self.view?.configure(with: weatherDetail.daily)
                 }
             case .failure(let error):
                 print(error.localizedDescription)
