@@ -1,15 +1,24 @@
 //
-//  File.swift
+//  Weather2.swift
 //  Weather
 //
-//  Created by Артем Мак on 16.02.2022.
+//  Created by Артем Мак on 15.02.2022.
 //  Copyright © 2022 Артем Мак. All rights reserved.
 //
 
-import Foundation
-
-struct WeatherNow {
-    let date: String
-    let image: String
-    let temperature: Int
+struct WeatherNow: Decodable {
+    let weather: [Weather]?
+    let main: Main?
 }
+
+struct Weather: Decodable {
+    let description: String
+    let icon: String
+}
+
+struct Main: Decodable {
+    let temp: Double
+    let temp_min: Double
+    let temp_max: Double
+}
+

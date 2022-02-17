@@ -10,8 +10,6 @@ import UIKit
 
 class WeekTemperatureView: UIView {
     
-    private lazy var array: [WeatherNow] = [WeatherNow(date: "Сегодня", image: "rain", temperature: -3), WeatherNow(date: "Пн", image: "thunderstorm", temperature: 0), WeatherNow(date: "Вт", image: "thunderstorm", temperature: 0), WeatherNow(date: "Ср", image: "thunderstorm", temperature: 0), WeatherNow(date: "Чт", image: "thunderstorm", temperature: 0), WeatherNow(date: "Пт", image: "thunderstorm", temperature: 0), WeatherNow(date: "Сб", image: "thunderstorm", temperature: 0), WeatherNow(date: "Вс", image: "rain", temperature: -3)]
-    
     private let calendarImageView: UIImageView = {
         let calendarImageView = UIImageView()
         calendarImageView.image = UIImage(named: "calendar")
@@ -99,13 +97,13 @@ extension WeekTemperatureView: UITableViewDelegate {
 }
 extension WeekTemperatureView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: WeekTemperatureTableViewCell.identifire, for: indexPath) as? WeekTemperatureTableViewCell {
-            let weather = array[indexPath.row]
-            cell.configurate(with: weather.date, image: weather.image, temperatureFirst: weather.temperature, temperatureSecond: weather.temperature)
+            //let weather = array[indexPath.row]
+//            cell.configurate(with: weather.date, image: weather.image, temperatureFirst: weather.temperature, temperatureSecond: weather.temperature)
         
             return cell
         }

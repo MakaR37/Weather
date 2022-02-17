@@ -10,7 +10,7 @@ import UIKit
 
 class HourlyTemperatureView: UIView {
     
-    private lazy var array: [Weather] = [Weather(date: "Сейчас", image: "rain", temperature: -3), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "rain", temperature: -3), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "rain", temperature: -3)]
+    private var hourles: [Hourly] = []
     
     private lazy var watchImageView: UIImageView = {
         let watchImageView = UIImageView()
@@ -35,8 +35,8 @@ class HourlyTemperatureView: UIView {
     
     private lazy var hourlyForecastColletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         layout.scrollDirection = .horizontal
+        let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
         hourlyForecastColletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
         hourlyForecastColletionView.backgroundColor = UIColor(
             red: (80/255.0),
@@ -59,6 +59,11 @@ class HourlyTemperatureView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(hourles: [Hourly]) {
+        self.hourles = hourles
+        hourlyForecastColletionView.reloadData()
     }
     
     private func setupView() {
@@ -105,7 +110,7 @@ extension HourlyTemperatureView: UICollectionViewDelegateFlowLayout {
         let width = ((collectionView.bounds.width - widthFirstCell - collectionView.contentInset.left - collectionView.contentInset.right) / 5) - 8
         if indexPath.row == 0 {
             return CGSize(width: widthFirstCell, height: 90)
-        }else{
+        } else {
             return CGSize(width: width, height: 90)
         }
     }
@@ -117,13 +122,27 @@ extension HourlyTemperatureView: UICollectionViewDelegateFlowLayout {
 
 extension HourlyTemperatureView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return array.count
+        return hourles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.identifire, for: indexPath) as? HourlyForecastCollectionViewCell {
-            let weather = array[indexPath.row]
-            cell.configurate(with: weather.date, image: weather.image, temperature: weather.temperature)
+            let hourly = hourles[indexPath.row]
+            var date: String {
+                let date = Date(timeIntervalSince1970: Double(hourly.dt))
+                
+                let dayTimePeriodFormatter = DateFormatter()
+                dayTimePeriodFormatter.dateFormat = "hh"
+                
+                let dateString = dayTimePeriodFormatter.string(from: date)
+                let currentDateString = dayTimePeriodFormatter.string(from: Date())
+                
+                if currentDateString == dateString {
+                    return "Сейчас"
+                }
+                return dateString
+            }
+            cell.configurate(date: date, imageLink: hourly.weather.first?.icon ?? "", temperature: hourly.temp)
             return cell
         }
         return UICollectionViewCell()

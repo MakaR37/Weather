@@ -23,6 +23,7 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     
     private lazy var weatherImageView: UIImageView = {
         let weatherImageView = UIImageView()
+        weatherImageView.contentMode = .scaleAspectFit
         weatherImageView.translatesAutoresizingMaskIntoConstraints = false
         return weatherImageView
     }()
@@ -46,6 +47,33 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func configurate(date: String, imageLink: String, temperature: Double) {
+        timeLabel.text = date
+        temperatureLabel.text = "\(Int(temperature))°"
+        getPicture(for: imageLink)
+    }
+    
+    private func getPicture(for link: String) {
+        guard let imageUrl = URL(string:"https://openweathermap.org/img/wn/\(link)@2x.png") else {
+            DispatchQueue.main.async {
+                self.weatherImageView.image = UIImage(named: "placeholder")
+            }
+            return
+        }
+        DispatchQueue.global(qos: .utility).async {
+            guard let pictureData = NSData(contentsOf: imageUrl as URL),
+                let picture = UIImage(data: pictureData as Data) else {
+                    DispatchQueue.main.async {
+                        self.weatherImageView.image = UIImage(named: "placeholder")
+                    }
+                    return
+            }
+            DispatchQueue.main.async {
+                self.weatherImageView.image = picture
+            }
+        }
+    }
+    
     private func setupViews() {
         contentView.addSubview(timeLabel)
         contentView.addSubview(weatherImageView)
@@ -58,12 +86,6 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         )
     }
     
-    public func configurate(with date: String, image: String, temperature: Int) {
-        timeLabel.text = date
-        temperatureLabel.text = "\(temperature)°"
-        weatherImageView.image = UIImage(named: "\(image)")
-    }
-    
     private func setupConstraints() {
         NSLayoutConstraint.activate([
             timeLabel.topAnchor.constraint(equalTo: topAnchor),
@@ -74,13 +96,15 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             weatherImageView.topAnchor.constraint(equalTo: timeLabel.bottomAnchor),
             weatherImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            weatherImageView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            weatherImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 45),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 45)
             ])
         
         NSLayoutConstraint.activate([
             temperatureLabel.topAnchor.constraint(equalTo: weatherImageView.bottomAnchor),
             temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 10)
             ])
     }
 }

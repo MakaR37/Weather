@@ -9,10 +9,9 @@
 import UIKit
 
 protocol MainView {
-    func showLocation(latitude: String, longitude: String)
+    func configure(with hourles: [Hourly])
     func showError(text: String)
 }
-
 
 class MainViewController: UIViewController {
     
@@ -83,8 +82,8 @@ class MainViewController: UIViewController {
     }
 }
 extension MainViewController: MainView {
-    func showLocation(latitude: String, longitude: String) {
-        print("latitude: \(latitude), longitude: \(longitude)")
+    func configure(with hourles: [Hourly]) {
+        hourlyTemperatureView.configure(hourles: hourles)
     }
     
     func showError(text: String) {
