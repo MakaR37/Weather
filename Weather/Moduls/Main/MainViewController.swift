@@ -25,8 +25,8 @@ class MainViewController: UIViewController {
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.axis = .vertical
         stackView.spacing = 16
+        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
