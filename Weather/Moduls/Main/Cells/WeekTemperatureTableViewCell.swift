@@ -69,8 +69,8 @@ class WeekTemperatureTableViewCell: UITableViewCell {
     
     public func configure(weekDay: String, image: String, tempFirts: Double, tempSec: Double) {
         weekDayLabel.text = weekDay
-        temperatureFirstLabel.text = "\(Int(tempFirts))"
-        temperatureSecondLabel.text = "\(Int(tempSec))"
+        temperatureFirstLabel.text = "\(Int(tempFirts))°"
+        temperatureSecondLabel.text = "\(Int(tempSec))°"
         getPicture(for: image)
     }
     

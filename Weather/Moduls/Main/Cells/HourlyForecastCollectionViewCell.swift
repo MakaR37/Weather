@@ -75,15 +75,16 @@ class HourlyForecastCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(timeLabel)
-        contentView.addSubview(weatherImageView)
-        contentView.addSubview(temperatureLabel)
         backgroundColor = UIColor(
             red: (80/255.0),
             green: (91/255.0),
             blue: (107/255.0),
             alpha: 1
         )
+        
+        contentView.addSubview(timeLabel)
+        contentView.addSubview(weatherImageView)
+        contentView.addSubview(temperatureLabel)
     }
     
     private func setupConstraints() {
