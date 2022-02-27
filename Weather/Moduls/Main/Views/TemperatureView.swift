@@ -58,7 +58,7 @@ class TemperatureView: UIView {
     
     public func configurate(weather: WeatherNow) {
         cityNameLabel.text = weather.name
-        weatherСonditionsLabel.text = weather.weather.first?.description
+        weatherСonditionsLabel.text = weather.weather.first?.description ?? ""
         temperatureLabel.text = "\(Int(weather.main.temp))°"
         temperatureIntervalLabel.text = String("Макс. \(Int(weather.main.tempMax))°, мин. \(Int(weather.main.tempMin))°")
     }

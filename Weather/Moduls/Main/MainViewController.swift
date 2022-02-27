@@ -17,6 +17,8 @@ protocol MainView {
 
 class MainViewController: UIViewController {
     
+    private lazy var presenter = MainPresenter()
+    
     private lazy var backgroundImageView: UIImageView = {
         let backgroundImageView = UIImageView()
         backgroundImageView.image = UIImage(named: "skyBackground")
@@ -47,8 +49,6 @@ class MainViewController: UIViewController {
         let weekTemperatureView = WeekTemperatureView()
         return weekTemperatureView
     }()
-    
-    private lazy var presenter = MainPresenter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +82,7 @@ class MainViewController: UIViewController {
             ])
     }
 }
+
 extension MainViewController: MainView {
     func configure(with weather: WeatherNow) {
         temperatureView.configurate(weather: weather)
@@ -96,6 +97,13 @@ extension MainViewController: MainView {
     }
     
     func showError(text: String) {
-        print("error: \(text)")
+        let showActionAlertController = UIAlertController(title: text, message: text, preferredStyle: .alert)
+        let actionRepeatButton = UIAlertAction(title: "Повтор", style: .default) {_ in
+            self.presenter.repeatrRequset()
+            self.showError(text: text)
+        }
+        showActionAlertController.addAction(actionRepeatButton)
+        present(showActionAlertController, animated: true, completion: nil)
     }
 }
+

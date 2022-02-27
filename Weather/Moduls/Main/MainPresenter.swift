@@ -8,7 +8,11 @@
 
 import Foundation
 
-class MainPresenter {
+protocol MainPresenterProtocol {
+    func repeatrRequset()
+}
+
+class MainPresenter: MainPresenterProtocol {
     
     var view: MainView?
     
@@ -34,7 +38,7 @@ class MainPresenter {
                     self.view?.configure(with: weatherNow)
                 }
             case .failure(let error):
-                print("\(error.localizedDescription)")
+                self.view?.showError(text: error.localizedDescription)
             }
         })
     }
@@ -48,8 +52,22 @@ class MainPresenter {
                     self.view?.configure(with: weatherDetail.daily)
                 }
             case .failure(let error):
-                print(error.localizedDescription)
+                self.view?.showError(text: error.localizedDescription)
             }
         })
+    }
+    
+    func repeatrRequset() {
+        LocationService.shared.getLocation { result in
+            switch result {
+            case .success(let location):
+                let locationLatitude = location.coordinate.latitude
+                let locationLongitude = location.coordinate.longitude
+                self.getWeatherNow(latitude: locationLatitude, longitude: locationLongitude)
+                self.getWeatherDetailed(latitude: locationLatitude, longitude: locationLongitude)
+            case .failure(let error):
+                self.view?.showError(text: error.localizedDescription)
+            }
+        }
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 class WeekTemperatureView: UIView {
     
-    var days: [Daily] = []
+    private var days: [Daily] = []
     
     private let calendarImageView: UIImageView = {
         let calendarImageView = UIImageView()
@@ -102,6 +102,7 @@ extension WeekTemperatureView: UITableViewDelegate {
         return 65
     }
 }
+
 extension WeekTemperatureView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return days.count
@@ -110,21 +111,10 @@ extension WeekTemperatureView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let cell = tableView.dequeueReusableCell(withIdentifier: WeekTemperatureTableViewCell.identifire, for: indexPath) as? WeekTemperatureTableViewCell {
             let day = days[indexPath.row]
-            var weekDay: String {
-                let date = Date(timeIntervalSince1970: Double(day.dt))
-                
-                let dayTimePeriodFormatter = DateFormatter()
-                dayTimePeriodFormatter.dateFormat = "E"
-                dayTimePeriodFormatter.locale = Locale(identifier: "ru")
-                
-                let dateString = dayTimePeriodFormatter.string(from: date)
-                let currentDateString = dayTimePeriodFormatter.string(from: Date())
-                
-                if currentDateString == dateString {
-                    return "Сегодня"
-                }
-                return dateString.capitalized
-            }
+            
+            var weekDay = String()
+            weekDay.convertDateSince1970(date: day.dt, formatDate: "E", locale: "ru")
+            
             cell.configure(weekDay: weekDay, image: day.weather.first?.icon ?? "", tempFirts: day.temp.min, tempSec: day.temp.max)
             return cell
         }

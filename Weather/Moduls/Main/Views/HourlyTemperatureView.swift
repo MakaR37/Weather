@@ -33,22 +33,22 @@ class HourlyTemperatureView: UIView {
         return hourlyForecastLabel
     }()
     
-    private lazy var hourlyForecastColletionView: UICollectionView = {
+    private lazy var colletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        hourlyForecastColletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
-        hourlyForecastColletionView.backgroundColor = UIColor(
+        let colletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        colletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
+        colletionView.backgroundColor = UIColor(
             red: (80/255.0),
             green: (91/255.0),
             blue: (107/255.0),
             alpha: 1
         )
-        hourlyForecastColletionView.delegate = self
-        hourlyForecastColletionView.dataSource = self
-        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
-        hourlyForecastColletionView.translatesAutoresizingMaskIntoConstraints = false
-        return hourlyForecastColletionView
+        colletionView.delegate = self
+        colletionView.dataSource = self
+        colletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
+        colletionView.translatesAutoresizingMaskIntoConstraints = false
+        return colletionView
     }()
     
     override init(frame: CGRect) {
@@ -63,7 +63,7 @@ class HourlyTemperatureView: UIView {
     
     public func configure(hourles: [Hourly]) {
         self.hourles = hourles
-        hourlyForecastColletionView.reloadData()
+        colletionView.reloadData()
     }
     
     private func setupView() {
@@ -77,7 +77,7 @@ class HourlyTemperatureView: UIView {
         )
         addSubview(watchImageView)
         addSubview(hourlyForecastLabel)
-        addSubview(hourlyForecastColletionView)
+        addSubview(colletionView)
     }
     
     private func setupConstraints() {
@@ -95,11 +95,11 @@ class HourlyTemperatureView: UIView {
             ])
         
         NSLayoutConstraint.activate([
-            hourlyForecastColletionView.topAnchor.constraint(equalTo: watchImageView.bottomAnchor),
-            hourlyForecastColletionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            hourlyForecastColletionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            hourlyForecastColletionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            hourlyForecastColletionView.heightAnchor.constraint(equalToConstant: 110)
+            colletionView.topAnchor.constraint(equalTo: watchImageView.bottomAnchor),
+            colletionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            colletionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            colletionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            colletionView.heightAnchor.constraint(equalToConstant: 110)
             ])
     }
 }
@@ -128,20 +128,8 @@ extension HourlyTemperatureView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.identifire, for: indexPath) as? HourlyForecastCollectionViewCell {
             let hourly = hourles[indexPath.row]
-            var date: String {
-                let date = Date(timeIntervalSince1970: Double(hourly.dt))
-                
-                let dayTimePeriodFormatter = DateFormatter()
-                dayTimePeriodFormatter.dateFormat = "hh"
-                
-                let dateString = dayTimePeriodFormatter.string(from: date)
-                let currentDateString = dayTimePeriodFormatter.string(from: Date())
-                
-                if currentDateString == dateString {
-                    return "Сейчас"
-                }
-                return dateString
-            }
+            var date = String()
+            date.convertDateSince1970(date: hourly.dt, formatDate: "hh", locale: "ru")
             cell.configurate(date: date, imageLink: hourly.weather.first?.icon ?? "" , temperature: hourly.temp)
             return cell
         }
