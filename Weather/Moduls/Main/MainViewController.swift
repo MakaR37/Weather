@@ -84,6 +84,7 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: MainView {
+    
     func configure(with weather: WeatherNow) {
         temperatureView.configurate(weather: weather)
     }
@@ -98,9 +99,8 @@ extension MainViewController: MainView {
     
     func showError(text: String) {
         let showActionAlertController = UIAlertController(title: text, message: text, preferredStyle: .alert)
-        let actionRepeatButton = UIAlertAction(title: "Повтор", style: .default) {_ in
-            self.presenter.repeatrRequset()
-            self.showError(text: text)
+        let actionRepeatButton = UIAlertAction(title: "Повторить", style: .cancel) {_ in
+            self.presenter.viewDidLoad()
         }
         showActionAlertController.addAction(actionRepeatButton)
         present(showActionAlertController, animated: true, completion: nil)
