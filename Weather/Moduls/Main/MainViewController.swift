@@ -9,11 +9,15 @@
 import UIKit
 
 protocol MainView {
-    func showLocation(latitude: String, longitude: String)
+    func configure(with hourles: [Hourly])
+    func configure(with weather: WeatherNow)
+    func configure(with dailys: [Daily])
     func showError(text: String)
 }
 
 class MainViewController: UIViewController {
+    
+    private lazy var presenter = MainPresenter()
     
     private lazy var backgroundImageView: UIImageView = {
         let backgroundImageView = UIImageView()
@@ -41,7 +45,10 @@ class MainViewController: UIViewController {
         return hourlyTemperatureView
     }()
     
-    private lazy var presenter = MainPresenter()
+    private lazy var weekTemperatureView: WeekTemperatureView = {
+        let weekTemperatureView = WeekTemperatureView()
+        return weekTemperatureView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +56,6 @@ class MainViewController: UIViewController {
         setupConstraints()
         presenter.view = self
         presenter.viewDidLoad()
-        temperatureView.configurate(with: "Иваново", state: "Временами снег", temperature: -2, temperatureMax: -2, temperatureMin: -6)
     }
     
     private func setupViews() {
@@ -57,6 +63,7 @@ class MainViewController: UIViewController {
         view.addSubview(stackView)
         stackView.addArrangedSubview(temperatureView)
         stackView.addArrangedSubview(hourlyTemperatureView)
+        stackView.addArrangedSubview(weekTemperatureView)
     }
     
     private func setupConstraints() {
@@ -68,19 +75,35 @@ class MainViewController: UIViewController {
             ])
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 35),
+            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 90),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -32)
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -16)
             ])
     }
 }
+
 extension MainViewController: MainView {
-    func showLocation(latitude: String, longitude: String) {
-        print("latitude: \(latitude), longitude: \(longitude)")
+    
+    func configure(with weather: WeatherNow) {
+        temperatureView.configurate(weather: weather)
+    }
+    
+    func configure(with hourles: [Hourly]) {
+        hourlyTemperatureView.configure(hourles: hourles)
+    }
+    
+    func configure(with dailys: [Daily]) {
+        weekTemperatureView.configure(week: dailys)
     }
     
     func showError(text: String) {
-        print("error: \(text)")
+        let showActionAlertController = UIAlertController(title: text, message: text, preferredStyle: .alert)
+        let actionRepeatButton = UIAlertAction(title: "Повторить", style: .cancel) {_ in
+            self.presenter.viewDidLoad()
+        }
+        showActionAlertController.addAction(actionRepeatButton)
+        present(showActionAlertController, animated: true, completion: nil)
     }
 }
+

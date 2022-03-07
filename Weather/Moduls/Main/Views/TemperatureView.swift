@@ -56,6 +56,13 @@ class TemperatureView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    public func configurate(weather: WeatherNow) {
+        cityNameLabel.text = weather.name
+        weatherСonditionsLabel.text = weather.weather.first?.description ?? ""
+        temperatureLabel.text = "\(Int(weather.main.temp))°"
+        temperatureIntervalLabel.text = String("Макс. \(Int(weather.main.tempMax))°, мин. \(Int(weather.main.tempMin))°")
+    }
+    
     private func setupView() {
         addSubview(cityNameLabel)
         addSubview(weatherСonditionsLabel)
@@ -65,34 +72,28 @@ class TemperatureView: UIView {
     
     private func setupConstrant() {
         NSLayoutConstraint.activate([
-            cityNameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 120),
-            cityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 45),
-            cityNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
+            cityNameLabel.topAnchor.constraint(equalTo: topAnchor),
+            cityNameLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            cityNameLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         
         NSLayoutConstraint.activate([
-            weatherСonditionsLabel.topAnchor.constraint(equalTo: cityNameLabel.bottomAnchor, constant: -1),
-            weatherСonditionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            weatherСonditionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
+            weatherСonditionsLabel.topAnchor.constraint(equalTo: cityNameLabel.bottomAnchor),
+            weatherСonditionsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            weatherСonditionsLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         
         NSLayoutConstraint.activate([
             temperatureLabel.topAnchor.constraint(equalTo: weatherСonditionsLabel.bottomAnchor, constant: -10),
-            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 55),
-            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
+            temperatureLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            temperatureLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         
         NSLayoutConstraint.activate([
             temperatureIntervalLabel.topAnchor.constraint(equalTo: temperatureLabel.bottomAnchor, constant: -10),
-            temperatureIntervalLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 70),
-            temperatureIntervalLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -70)
+            temperatureIntervalLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            temperatureIntervalLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            temperatureIntervalLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
             ])
-    }
-    
-    public func configurate(with cityName: String, state: String, temperature: Int, temperatureMax: Int, temperatureMin: Int) {
-        cityNameLabel.text = cityName
-        weatherСonditionsLabel.text = state
-        temperatureLabel.text = String("\(temperature)°")
-        temperatureIntervalLabel.text = String("Макс. \(temperatureMax)°, мин. \(temperatureMin)°")
     }
 }

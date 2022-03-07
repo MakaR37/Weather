@@ -10,7 +10,7 @@ import UIKit
 
 class HourlyTemperatureView: UIView {
     
-    private lazy var weatherArray: [Weather] = [Weather(date: "Сейчас", image: "rain", temperature: -3), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "rain", temperature: -3), Weather(date: "1", image: "thunderstorm", temperature: 0), Weather(date: "1", image: "rain", temperature: -3)]
+    private var hourles: [Hourly] = []
     
     private lazy var watchImageView: UIImageView = {
         let watchImageView = UIImageView()
@@ -22,7 +22,7 @@ class HourlyTemperatureView: UIView {
     private lazy var hourlyForecastLabel: UILabel = {
         let hourlyForecastLabel = UILabel()
         hourlyForecastLabel.text = "ПОЧАСОВОЙ ПРОГНОЗ"
-        hourlyForecastLabel.font = UIFont.systemFont(ofSize: 12)
+        hourlyForecastLabel.font = .systemFont(ofSize: 12)
         hourlyForecastLabel.textColor = UIColor(
             red: (138/255.0),
             green: (148/255.0),
@@ -33,22 +33,22 @@ class HourlyTemperatureView: UIView {
         return hourlyForecastLabel
     }()
     
-    private lazy var hourlyForecastColletionView: UICollectionView = {
+    private lazy var colletionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        let hourlyForecastColletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
-        hourlyForecastColletionView.translatesAutoresizingMaskIntoConstraints = false
-        hourlyForecastColletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
-        hourlyForecastColletionView.backgroundColor = UIColor(
+        let colletionView = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        colletionView.register(HourlyForecastCollectionViewCell.self, forCellWithReuseIdentifier: HourlyForecastCollectionViewCell.identifire)
+        colletionView.backgroundColor = UIColor(
             red: (80/255.0),
             green: (91/255.0),
             blue: (107/255.0),
             alpha: 1
         )
-        hourlyForecastColletionView.delegate = self
-        hourlyForecastColletionView.dataSource = self
-        hourlyForecastColletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
-        return hourlyForecastColletionView
+        colletionView.delegate = self
+        colletionView.dataSource = self
+        colletionView.contentInset = UIEdgeInsets(top: .zero, left: 12, bottom: .zero, right: 12)
+        colletionView.translatesAutoresizingMaskIntoConstraints = false
+        return colletionView
     }()
     
     override init(frame: CGRect) {
@@ -59,6 +59,11 @@ class HourlyTemperatureView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func configure(hourles: [Hourly]) {
+        self.hourles = hourles
+        colletionView.reloadData()
     }
     
     private func setupView() {
@@ -72,7 +77,7 @@ class HourlyTemperatureView: UIView {
         )
         addSubview(watchImageView)
         addSubview(hourlyForecastLabel)
-        addSubview(hourlyForecastColletionView)
+        addSubview(colletionView)
     }
     
     private func setupConstraints() {
@@ -86,16 +91,15 @@ class HourlyTemperatureView: UIView {
         NSLayoutConstraint.activate([
             hourlyForecastLabel.topAnchor.constraint(equalTo: topAnchor, constant: 10),
             hourlyForecastLabel.leadingAnchor.constraint(equalTo: watchImageView.trailingAnchor, constant: 5),
-            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            hourlyForecastLabel.bottomAnchor.constraint(equalTo: watchImageView.bottomAnchor)
+            hourlyForecastLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
             ])
         
         NSLayoutConstraint.activate([
-            hourlyForecastColletionView.topAnchor.constraint(equalTo: watchImageView.bottomAnchor),
-            hourlyForecastColletionView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            hourlyForecastColletionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            hourlyForecastColletionView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            hourlyForecastColletionView.heightAnchor.constraint(equalToConstant: 110)
+            colletionView.topAnchor.constraint(equalTo: watchImageView.bottomAnchor),
+            colletionView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            colletionView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            colletionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            colletionView.heightAnchor.constraint(equalToConstant: 110)
             ])
     }
 }
@@ -118,13 +122,15 @@ extension HourlyTemperatureView: UICollectionViewDelegateFlowLayout {
 
 extension HourlyTemperatureView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return weatherArray.count
+        return hourles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HourlyForecastCollectionViewCell.identifire, for: indexPath) as? HourlyForecastCollectionViewCell {
-            let weather = weatherArray[indexPath.row]
-            cell.configurate(with: weather.date, image: weather.image, temperature: weather.temperature)
+            let hourly = hourles[indexPath.row]
+            var date = String()
+            date.convertDateSince1970(date: hourly.dt, formatDate: "hh", locale: "ru")
+            cell.configurate(date: date, imageLink: hourly.weather.first?.icon ?? "" , temperature: hourly.temp)
             return cell
         }
         return UICollectionViewCell()
